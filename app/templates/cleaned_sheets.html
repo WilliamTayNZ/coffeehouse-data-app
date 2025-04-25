@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cleaned Sheets</title>
+</head>
+<body>
+    <h1>📋 Cleaned Sheets Overview</h1>
+
+    <!-- Table displaying each cleaned sheet and number of rows -->
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Sheet Name</th>
+            <th>Number of Entries</th>
+        </tr>
+
+        <!-- Loop through cleaned sheets dictionary: name = sheetname, df = DataFrame -->
+        {% for name, df in sheets.items() %}
+        <tr>
+            <td>{{ name }}</td>
+            <td>{{ df.shape[0] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <!-- Form to select a sheet and proceed to insight generation -->
+    <form method="GET" action="{{ url_for('select_insight') }}">
+
+        <!-- Dropdown label -->
+        <label for="selected_sheet">Choose a sheet for insight analysis:</label><br><br>
+
+        <!-- Dropdown populated with sheet names from cleaned_data dictionary -->
+        <select name="selected_sheet" id="selected_sheet" required>
+            <option value="" disabled selected>-- Select a sheet --</option>
+            {% for name in sheets.keys() %}
+            <option value="{{ name }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <!-- Button to submit the selected sheet to the /insights route -->
+        <button type="submit">📊 Proceed to Insight Selection</button>
+    </form>
+</body>
+</html>

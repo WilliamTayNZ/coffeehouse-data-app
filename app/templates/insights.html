@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select an Insight</title>
+</head>
+<body>
+    <h1>📈 Choose an Insight to Generate</h1>
+
+    <h2>📝 Selected Sheet: {{ selected_sheet }}</h2>
+
+    <form method="POST">
+        <!-- Hidden field to preserve selected sheet -->
+        <input type="hidden" name="selected_sheet" value="{{ selected_sheet }}">
+
+        <label for="insight">What would you like to view?</label><br><br>
+
+        <select name="insight" id="insight" required onchange="showPopularSubOptions(); clearSubInsight();">
+            <option value="" disabled selected>-- Select an insight --</option>
+            <option value="peak_times">⏰ Peak Transaction Times</option>
+            <option value="popular_items">📦 Most Popular Items</option>
+            <option value="highest_revenue">💰 Highest Revenue Items</option>
+        </select>
+
+        <div id="popularSubOptions" style="display:none; margin-top: 1em;">
+            <label for="sub_insight">How would you like to view popularity?</label><br>
+            <input type="radio" name="sub_insight" value="popular_by_transactions"> 📊 By Number of Transactions<br>
+            <input type="radio" name="sub_insight" value="popular_by_quantity"> 📦 By Quantity Sold<br>
+        </div>
+
+        <br>
+        <button type="submit">Generate Insight</button>
+    </form>
+
+    <script>
+        function showPopularSubOptions() {
+            const insight = document.getElementById("insight").value;
+            const subOptions = document.getElementById("popularSubOptions");
+            subOptions.style.display = (insight === "popular_items") ? "block" : "none"; 
+            // "block" shows it like a normal div, "none" hides it  
+        }
+
+        function clearSubInsight () {
+            const radios = document.getElementsByName("sub_insight");
+            for (let r of radios) {
+                r.checked = false;
+            }
+        }
+    </script>
+</body>
+</html>

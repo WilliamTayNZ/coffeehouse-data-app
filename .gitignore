@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+
+# Uploaded and generated files
+uploads/
+static/charts/
+
+# Ignore documentation and media not meant for repo
+Development_Plan.docx
+Overview.txt
+image.png
+git_101.txt
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor-specific (optional, but useful)
+.vscode/
+.idea/
