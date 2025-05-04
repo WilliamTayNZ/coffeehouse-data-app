@@ -1,4 +1,4 @@
-# ☕ Coffeehouse Data Insight App
+# ☕ Coffeehouse Sales Data Analyser
 
 A Flask-based web application for a fictional coffeehouse to upload, clean, and analyse their sales data, which is generated as Excel sheets.
 
@@ -25,8 +25,11 @@ A Flask-based web application for a fictional coffeehouse to upload, clean, and 
 ## 📸 Screenshots
 
 ![Upload Page](assets/preview_image_1.png)
+---
 ![Cleaning Summary](assets/preview_image_2.png)
+---
 ![Sheet Selection](assets/preview_image_3.png)
+---
 
 ---
 
@@ -73,8 +76,10 @@ coffeehouse-data-app/
 2. **Create and activate a virtual environment**
    ```bash
    python -m venv venv
+
    # For macOS/Linux
    source venv/bin/activate
+
    # For Windows
    venv\Scripts\activate
    ```
