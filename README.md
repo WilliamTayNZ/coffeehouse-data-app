@@ -1,6 +1,6 @@
 # ☕ Coffeehouse Data Insight App
 
-A Flask-based web application for a fictional coffeehouse to upload, clean, and analyse sales data from their Excel sheets.
+A Flask-based web application for a fictional coffeehouse to upload, clean, and analyse their sales data, which is generated as Excel sheets.
 
 ---
 
@@ -9,7 +9,7 @@ A Flask-based web application for a fictional coffeehouse to upload, clean, and 
 - 📤 Upload `.xlsx` Excel files with multiple transaction sheets
   - Follows the coffeehouse's sheets format, see uploads folder
 
-- 🧼 Cleans and standardizes each sheet:
+- 🧼 Cleans and processes each sheet:
   - Removes duplicates
   - Fills missing product names and prices based on menu
   - Flags incomplete rows
@@ -24,7 +24,9 @@ A Flask-based web application for a fictional coffeehouse to upload, clean, and 
 
 ## 📸 Screenshots
 
-> *(Add screenshots here once available)*
+![Upload Page](assets/preview_image_1.png)
+![Cleaning Summary](assets/preview_image_2.png)
+![Sheet Selection](assets/preview_image_3.png)
 
 ---
 
@@ -60,7 +62,7 @@ coffeehouse-data-app/
 
 ---
 
-## 🚀 Getting Started
+## 🚀 How to Use
 
 1. **Clone the repo**
    ```bash
@@ -87,7 +89,8 @@ coffeehouse-data-app/
    flask run
    ```
 
-5. **Visit the app**
-   Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
+5. **Upload Excel data files**
+
+   Upload the coffeehouse's Excel data files in `uploads/` to the directory, then click "Upload and Clean"!
 
 ---
