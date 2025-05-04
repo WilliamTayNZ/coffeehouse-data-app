@@ -96,6 +96,7 @@ coffeehouse-data-app/
 
 5. **Upload Excel data files**
 
-   Upload the coffeehouse's Excel data files in `uploads/` to the directory, then click "Upload and Clean"!
+- Download one of the coffeehouse's Excel data files from `uploads/`. 
+- Then, upload this to the file directory, and click "Upload and Clean"!
 
 ---
