@@ -1,8 +1,20 @@
 import pandas as pd
+import datetime
+import matplotlib
+
+matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 
-def visualise_peak_transaction_times(df,save_path=None):
-    # Extract hour directly from datetime.time object
+def visualise_peak_transaction_times(df, save_path=None):
+    # Convert 'Time' column to datetime.time using pandas' to_datetime
+    # This avoids a bug where repeated back navigation in the browser causes the column
+    # to be stored as strings instead of time objects, breaking .hour access
+    
+    if not isinstance(df['Time'].iloc[0], datetime.time): 
+        df['Time'] = pd.to_datetime(df['Time'], errors='coerce').dt.time
+
+    # Extract hour safely
     df['hour'] = df['Time'].apply(lambda t: t.hour if pd.notna(t) else None)
 
     # Function to map hour to time window
@@ -49,8 +61,6 @@ def visualise_peak_transaction_times(df,save_path=None):
     if save_path:
         plt.savefig(save_path)
         plt.close()
-    else:
-        plt.show()
 
 
 def visualise_most_popular_by_num_transactions(df, top_n=10, save_path=None):
@@ -78,8 +88,6 @@ def visualise_most_popular_by_num_transactions(df, top_n=10, save_path=None):
     if save_path:
         plt.savefig(save_path)
         plt.close()
-    else:
-        plt.show()
     
     return popular
 
@@ -108,8 +116,6 @@ def visualise_most_popular_by_quantity(df, top_n=10, save_path=None):
     if save_path:
         plt.savefig(save_path)
         plt.close()
-    else:
-        plt.show()
     
     return quantity_totals
 
@@ -141,7 +147,5 @@ def visualise_highest_revenue_items(df, top_n=10, save_path=None):
     if save_path:
         plt.savefig(save_path)
         plt.close()
-    else:
-        plt.show()
 
     return revenue_by_product

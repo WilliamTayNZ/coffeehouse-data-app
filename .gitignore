@@ -5,8 +5,7 @@ __pycache__/
 # Virtual environment
 venv/
 
-# Uploaded and generated files
-uploads/
+# Generated files
 static/charts/
 
 # Ignore documentation and media not meant for repo

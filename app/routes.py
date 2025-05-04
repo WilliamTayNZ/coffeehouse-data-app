@@ -8,7 +8,7 @@
 
 # secure_filename: To sanitize uploaded file names (strips risky characters or paths) and prevent path injection
 # os: For working with file paths and upload folders
-# clean_excel_sheets: Your cleaning function that processes the uploaded Excel file
+# clean_excel_sheets: Cleaning function that processes the uploaded Excel file
 
 # UPLOAD_FOLDER: Tells Flask where to save incoming .xlsx files
 # os.makedirs(UPLOAD_FOLDER, exist_ok=True) Ensures the folder exists; creates it if not. exist_ok ensures no error when already exist
@@ -20,7 +20,7 @@
 # Flask is a lightweight web framework
 # werkzeug is the underlying library Flask uses to handle things like: HTTP requests and responses, routing, file uploads, sessions etc
 
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 import os
 from app.cleaner import clean_excel_sheets
@@ -73,12 +73,22 @@ def register_routes(app):
     def view_cleaned_sheets():
         return render_template('cleaned_sheets.html', sheets=cleaned_data)
     
+    @app.route('/select_sheet', methods=['POST'])
+    def select_sheet():
+        selected_sheet = request.form.get('selected_sheet')
+        
+        if not selected_sheet:
+            return "No sheet selected. Please go back.", 400
+        
+        session['selected_sheet'] = selected_sheet
+        return redirect(url_for('select_insight'))
+    
         
     @app.route('/insights', methods = ['GET', 'POST'])
     def select_insight():
         if request.method == 'POST':
             # Final insight form submission (second form)
-            selected_sheet = request.form.get('selected_sheet')
+            selected_sheet = session.get('selected_sheet')
             insight = request.form.get('insight')
             sub_insight = request.form.get('sub_insight')
 
@@ -117,7 +127,7 @@ def register_routes(app):
         
         else:  # This is the GET request — when user first arrives at /insights
             print("Back here again")
-            selected_sheet = request.args.get('selected_sheet')
+            selected_sheet = session.get('selected_sheet')
             return render_template('insights.html', selected_sheet=selected_sheet)
         
     @app.route('/charts/<filename>')
