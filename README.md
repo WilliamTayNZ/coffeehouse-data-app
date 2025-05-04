@@ -92,7 +92,7 @@ coffeehouse-data-app/
 
 4. **Run the app**
    ```bash
-   flask run
+   python run.py
    ```
 
 5. **Upload Excel data files**
