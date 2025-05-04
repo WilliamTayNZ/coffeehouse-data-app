@@ -58,6 +58,7 @@ coffeehouse-data-app/
 ├── static/
 │   └── charts/             # Chart images saved here
 │
+├── assets/                 # Only for storing README preview screenshots 
 ├── uploads/                # Uploaded Excel files
 ├── requirements.txt
 └── README.md
