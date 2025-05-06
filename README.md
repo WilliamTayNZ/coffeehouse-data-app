@@ -70,13 +70,13 @@ coffeehouse-data-app/
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/your-username/coffeehouse-data-app.git
+   git clone https://github.com/WilliamTayNZ/coffeehouse-data-app.git
    cd coffeehouse-data-app
    ```
 
 2. **Create and activate a virtual environment**
    ```bash
-   python -m venv venv
+   py -m venv venv
 
    # For macOS/Linux
    source venv/bin/activate
