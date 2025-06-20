@@ -111,8 +111,41 @@ h1 {
     color: #054423;
 }
 
+/* Load Existing Data Button */
 
-/* Button */
+.load-button {
+    background-color: #fdf6dd;
+    color: #054423;
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    display: inline-block;
+    margin-top: 0.1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.load-button:hover {
+    background-color: #f2e6b8;
+    border-color: #b5a57a;
+}
+
+.file-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* Other Buttons */
 
 button {
     background-color: #e4bb72;
@@ -128,5 +161,24 @@ button {
 
 button:hover {
     background-color: #d2a860;
+}
+
+button:disabled {
+    background-color: #cccaca;
+    color: #817f7feb;
+    cursor: not-allowed;
+    box-shadow: none;
+    border: none;
+}
+
+.select-button.selected {
+    background-color: #99c794;
+    border: 1px solid #054423;
+}
+
+#clean-button {
+    padding: 0.5rem 0.9rem;
+    font-weight: 500;
+    border-radius: 0.4rem;
 }
 

@@ -18,15 +18,23 @@
             <h2>Upload Sales Data</h2>
             <form method="POST" enctype="multipart/form-data"> 
                 <label for="file">Upload your franchise's sales data (.xlsx):</label><br>
+                <div class="file-upload-wrapper">
+                    <label for="file" class="file-upload-label">Choose file</label>
+                    <span id="file-name">No file chosen</span>
+                    <input type="file" name="file" id="file" required>
+                </div>
 
-                <label class="file-upload">
-                    <div class="file-upload-wrapper">
-                        <label for="file" class="file-upload-label">Choose file</label>
-                        <span id="file-name">No file chosen</span>
-                        <input type="file" name="file" id="file" required>
-                    </div>
-                </label>
-                <button type="submit">Clean data</button>
+                <div id="existing-files-section" style="display: none;">
+                    <h3>Previously Uploaded Files</h3>
+                    <ul id="existing-files-list"></ul>
+                </div>
+                <div id="file-preview" style="margin-top: 1rem;"></div>
+
+                <button type="button" id="load-existing-button" class="load-button">
+                    Load Existing Data
+                </button>
+
+                <button type="submit" id="clean-button" disabled>Clean data</button>
             </form>
         </div>
     </div>
@@ -34,11 +42,112 @@
     <script>
         const fileInput = document.getElementById("file");
         const fileName = document.getElementById("file-name");
+        const cleanButton = document.getElementById("clean-button");
 
         fileInput.addEventListener("change", function() {
-            fileName.textContent = this.files.length > 0 ? this.files[0].name : "No file chosen";
-        })
+            const fileChosen = this.files.length > 0;
+            fileName.textContent = fileChosen ? this.files[0].name : "No file chosen";
+            cleanButton.disabled =  !fileChosen;
+        });
     </script>
+
+    <script>
+        document.getElementById("load-existing-button").addEventListener("click", () => {
+            fetch("/api/load_existing")
+                .then(res => res.json())
+                .then(data => {
+                    const list = document.getElementById("existing-files-list");
+                    const section = document.getElementById("existing-files-section");
+                    const previewBox = document.getElementById("file-preview");
+
+                    list.innerHTML = "";
+                    previewBox.innerHTML = "";
+                    section.style.display = "block";
+
+                    if (data.files.length === 0) {
+                        list.innerHTML = "<li>No existing files found.</li>";
+                        return;
+                    }
+
+                    let currentlySelected = null;
+                    let currentlyPreviewed = null;
+
+                    data.files.forEach(filename => {
+                        const li = document.createElement("li");
+
+                        // PREVIEW button
+                        const previewBtn = document.createElement("button");
+                        previewBtn.textContent = "Preview";
+                        previewBtn.classList.add("preview-button");
+                        previewBtn.onclick = () => {
+                            if (currentlyPreviewed === filename) {
+                                previewBox.innerHTML = "";
+                                currentlyPreviewed = null;
+                                previewBtn.classList.remove("selected");
+                            } else {
+                                fetch(`/api/preview_file/${filename}`)
+                                    .then(res => res.json())
+                                    .then(preview => {
+                                        if (preview.error) {
+                                            previewBox.innerHTML = `<p style="color:red;">${preview.error}</p>`;
+                                            return;
+                                        }
+
+                                        const table = document.createElement("table");
+                                        const thead = document.createElement("thead");
+                                        const tbody = document.createElement("tbody");
+
+                                        thead.innerHTML = `<tr>${preview.columns.map(col => `<th>${col}</th>`).join('')}</tr>`;
+                                        preview.rows.forEach(row => {
+                                            const rowHtml = preview.columns.map(col => `<td>${row[col] ?? ''}</td>`).join('');
+                                            tbody.innerHTML += `<tr>${rowHtml}</tr>`;
+                                        });
+
+                                        table.appendChild(thead);
+                                        table.appendChild(tbody);
+                                        previewBox.innerHTML = "";
+                                        previewBox.appendChild(table);
+
+                                        // Update button states
+                                        document.querySelectorAll(".preview-button").forEach(btn => btn.classList.remove("selected"));
+                                        previewBtn.classList.add("selected");
+                                        currentlyPreviewed = filename;
+                                    });
+                            }
+                        };
+
+                        // SELECT button
+                        const selectBtn = document.createElement("button");
+                        selectBtn.textContent = "Select";
+                        selectBtn.classList.add("select-button");
+                        selectBtn.onclick = () => {
+                            if (currentlySelected === filename) {
+                                selectBtn.classList.remove("selected");
+                                fileName.textContent = "No file chosen";
+                                cleanButton.disabled = true;
+                                currentlySelected = null;
+                            } else {
+                                document.querySelectorAll(".select-button").forEach(btn => btn.classList.remove("selected"));
+                                selectBtn.classList.add("selected");
+                                fileName.textContent = filename;
+                                cleanButton.disabled = false;
+                                currentlySelected = filename;
+                            }
+                        };
+
+                        const actions = document.createElement("div");
+                        actions.className = "file-actions";
+                        actions.appendChild(previewBtn);
+                        actions.appendChild(selectBtn);
+
+                        li.innerHTML = `<span class="file-name">${filename}</span>`;
+                        li.appendChild(actions);
+                        list.appendChild(li);
+                    });
+                });
+        });
+    </script>
+
 
 </body>
 </html>

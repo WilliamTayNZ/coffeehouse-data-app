@@ -15,14 +15,13 @@
 
 
 
-# Flask and werkzeug
-
-# Flask is a lightweight web framework
 # werkzeug is the underlying library Flask uses to handle things like: HTTP requests and responses, routing, file uploads, sessions etc
 
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, jsonify, session
 from werkzeug.utils import secure_filename
 import os
+import pandas as pd
+import datetime
 from app.cleaner import clean_excel_sheets
 from app.insights import (
     visualise_peak_transaction_times,
@@ -48,6 +47,10 @@ cleaned_data = {}
 from flask import send_from_directory
 
 
+def process_and_store_cleaned_data(filepath):
+    global cleaned_data
+    cleaned_data, cleaning_summary = clean_excel_sheets(filepath)
+    return cleaning_summary
 
 def register_routes(app):
     @app.route('/', methods = ['GET', 'POST']) # methods is built-in to Flask's route decorator, represents HTTP methods
@@ -59,13 +62,54 @@ def register_routes(app):
                 filepath = os.path.join(UPLOAD_FOLDER, filename)
                 file.save(filepath)
                 
-                global cleaned_data # necessary to call 
-                cleaned_data, cleaning_summary = clean_excel_sheets(filepath)
+                cleaning_summary = process_and_store_cleaned_data(filepath)
 
                 return render_template('cleaning_summary.html', summary=cleaning_summary)
             
         else:
             return render_template('index.html')
+        
+    @app.route('/api/load_existing')
+    def api_load_existing():
+        files = [f for f in os.listdir(UPLOAD_FOLDER) if f.endswith('.xlsx')]
+        return jsonify(files=files)
+    
+    @app.route('/api/preview_file/<filename>')
+    def preview_file(filename):
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        
+        if not os.path.exists(filepath):
+            return jsonify({"error": "File not found"}), 404
+
+        try:
+            df = pd.read_excel(filepath)
+
+            # Convert all time columns to string
+            for col in df.columns:
+                if df[col].dtype == 'object' and df[col].apply(lambda x: isinstance(x, datetime.time)).any():
+                    df[col] = df[col].apply(lambda t: t.strftime('%H:%M') if isinstance(t, datetime.time) else t)
+
+            preview = df.head(10).to_dict(orient='records')  # first 10 rows as list of dicts
+            columns = df.columns.tolist()
+            return jsonify({"columns": columns, "rows": preview})
+        
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+        
+    @app.route('/api/use_file/<filename>', methods=['POST'])
+
+    def use_file(filename):
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+
+        if not os.path.exists(filepath):
+            return jsonify(success=False, error="File not found"), 404
+
+        try:
+            process_and_store_cleaned_data(filepath)
+            return jsonify(success=True)
+        
+        except Exception as e:
+            return jsonify(success=False, error=str(e)), 500
         
 
     @app.route('/sheets', methods=['POST'])
@@ -132,10 +176,7 @@ def register_routes(app):
     @app.route('/charts/<filename>')
     def serve_chart(filename):
         return send_from_directory(os.path.abspath('static/charts'), filename)
-        
 
-
-# Future suggestion: image.png
 
 
 
