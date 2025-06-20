@@ -1,6 +1,6 @@
 import os
 
-CHART_FOLDER = 'static/charts'  # ✅ Works well for Flask URLs
+CHART_FOLDER = '../static/charts'  # ✅ Works well for Flask URLs
 # CHART_FOLDER = os.path.join('static', 'charts')  # ✅ Platform-independent
 # CHART_FOLDER = 'static\charts'  # ❌ BAD on Windows
 

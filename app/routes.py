@@ -50,9 +50,8 @@ from flask import send_from_directory
 
 
 def register_routes(app):
-
     @app.route('/', methods = ['GET', 'POST']) # methods is built-in to Flask's route decorator, represents HTTP methods
-    def upload_file():
+    def upload_data():
         if request.method == 'POST': # request is a Flask object representing the current HTTP request, method is built-in property
             file = request.files['file'] # request.files is a Flask/Werkzeug dictionary-like object that holds uploaded files
             if file and file.filename.endswith('.xlsx'): # Checks if file is truthy

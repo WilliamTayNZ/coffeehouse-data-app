@@ -2,16 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Upload Excel File</title>
+    <title>Sales Data Analyser</title>
+    <link rel= "stylesheet" href="{{url_for('static', filename='styles/index.css')}}">
 </head>
 <body>
-    <h1>☕ Upload Sales Workbook</h1>
+    <div class="top-section">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo" alt="HouseOfCoffeesLogo">
+        <h1>Sales Data Analyser</h1>
+    </div>
+    
+    <hr class="divider">
 
-    <form method="POST" enctype="multipart/form-data"> 
-        <label for="file">Upload your franchise's sales data (.xlsx):</label><br>
-        <input type="file" name="file" id="file" required><br></br>
-        <button type="submit">Upload and Clean</button>
-    </form>
+    <div class="bottom-section">
+        <div class="upload-box">
+            <h2>Upload Sales Data</h2>
+            <form method="POST" enctype="multipart/form-data"> 
+                <label for="file">Upload your franchise's sales data (.xlsx):</label><br>
+
+                <label class="file-upload">
+                    <div class="file-upload-wrapper">
+                        <label for="file" class="file-upload-label">Choose file</label>
+                        <span id="file-name">No file chosen</span>
+                        <input type="file" name="file" id="file" required>
+                    </div>
+                </label>
+                <button type="submit">Clean data</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById("file");
+        const fileName = document.getElementById("file-name");
+
+        fileInput.addEventListener("change", function() {
+            fileName.textContent = this.files.length > 0 ? this.files[0].name : "No file chosen";
+        })
+    </script>
 
 </body>
 </html>

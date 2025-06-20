@@ -6,18 +6,19 @@ __pycache__/
 venv/
 
 # Generated files
-static/charts/
+app/static/charts/
 
 # Ignore documentation and media not meant for repo
 Development_Plan.docx
 Overview.txt
 image.png
 git_101.txt
+tasks.txt
 
 # System files
 .DS_Store
 Thumbs.db
 
-# Editor-specific (optional, but useful)
+# Editor-specific
 .vscode/
 .idea/
