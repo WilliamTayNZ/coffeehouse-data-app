@@ -6,7 +6,7 @@ __pycache__/
 venv/
 
 # Generated files
-app/static/charts/
+api/static/charts/
 
 # Ignore documentation and media not meant for repo
 Development_Plan.docx

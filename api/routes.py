@@ -22,15 +22,15 @@ from werkzeug.utils import secure_filename
 import os
 import pandas as pd
 import datetime
-from app.cleaner import clean_excel_sheets
-from app.insights import (
+from api.cleaner import clean_excel_sheets
+from api.insights import (
     visualise_peak_transaction_times,
     visualise_most_popular_by_num_transactions,
     visualise_most_popular_by_quantity,
     visualise_highest_revenue_items
 )
-from app.utils import (build_chart_filename, get_insight_title)
-from app.utils import CHART_FOLDER
+from api.utils import (build_chart_filename, get_insight_title)
+from api.utils import CHART_FOLDER
                        
 
 # Define where uploaded files are stored

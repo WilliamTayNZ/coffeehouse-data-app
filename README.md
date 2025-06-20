@@ -47,7 +47,7 @@ A Flask-based web application for a fictional coffeehouse to upload, clean, and 
 ```
 coffeehouse-data-app/
 │
-├── app/
+├── api/
 │   ├── cleaner.py          # Excel sheet cleaning logic
 │   ├── insights.py         # Insight generation and visualisation
 │   ├── routes.py           # Flask routes
