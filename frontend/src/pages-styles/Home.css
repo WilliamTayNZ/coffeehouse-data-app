@@ -1,0 +1,26 @@
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body {
+    --accent-border: #f5deb3;
+    color: #F3E6AB;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.divider {
+    border: none;
+    margin: 0;
+}
+
+.bottom-section {
+    background-color: #054423; 
+    flex: 1;
+    display: flex;
+    padding: 2rem 0;
+}

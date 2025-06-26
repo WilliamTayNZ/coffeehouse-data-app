@@ -1,0 +1,91 @@
+# werkzeug is the underlying library Flask uses to handle things like: HTTP requests and responses, routing, file uploads, sessions etc
+
+from flask import Blueprint, render_template, request, jsonify
+from werkzeug.utils import secure_filename
+import os
+import pandas as pd
+from backend.cleaner import clean_excel_sheets
+from backend.state import cleaned_data, process_and_store_cleaned_data
+import datetime
+
+home_bp = Blueprint('home', __name__)
+                       
+UPLOAD_FOLDER = 'uploads' 
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+
+@home_bp.route('/api/upload', methods=['POST'])
+def api_upload():
+    file = request.files['file']
+    filename = secure_filename(file.filename)
+    if not filename.endswith('.xlsx'):
+        return jsonify({'error': 'ERROR: Not an .xlsx file'}), 400
+
+    REQUIRED_COLUMNS = [
+        'Transaction ID', 'Date', 'Time', 'Product Name', 'Category',
+        'Price', 'Payment Method', 'Quantity', 'Order Type', 'Day of the Week'
+    ]
+
+    try:
+        df = pd.read_excel(file)
+        missing = [col for col in REQUIRED_COLUMNS if col not in df.columns]
+        if missing:
+            return jsonify({'error': f'Missing columns: {missing}'}), 400
+    except Exception as e:
+        return jsonify({'error': f'Invalid Excel file: {str(e)}'}), 400
+
+    file.seek(0)  # Reset file pointer after reading
+    filepath = os.path.join(UPLOAD_FOLDER, filename)
+    file.save(filepath)  # This will overwrite if file exists
+    return jsonify({'success': True}), 200
+    
+@home_bp.route('/api/load_existing')
+def api_load_existing():
+    files = [f for f in os.listdir(UPLOAD_FOLDER) if f.endswith('.xlsx')]
+    return jsonify(files=files)
+
+@home_bp.route('/api/preview_file/<filename>')
+def preview_file(filename):
+    filepath = os.path.join(UPLOAD_FOLDER, filename)
+    
+    if not os.path.exists(filepath):
+        return jsonify({"error": "File not found"}), 404
+
+    try:
+        df = pd.read_excel(filepath)
+
+        # Convert all time columns to string
+        for col in df.columns:
+            if df[col].dtype == 'object' and df[col].apply(lambda x: isinstance(x, datetime.time)).any():
+                df[col] = df[col].apply(lambda t: t.strftime('%H:%M') if isinstance(t, datetime.time) else t)
+
+        preview = df.head(10).to_dict(orient='records')  # first 10 rows as list of dicts
+        columns = df.columns.tolist()
+        return jsonify({"columns": columns, "rows": preview})
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@home_bp.route('/api/clean_file', methods=['POST'])
+def api_clean_file():
+
+    # Case 1: File upload
+    if 'file' in request.files:
+        file = request.files['file']
+        if not file or not file.filename.endswith('.xlsx'):
+            return jsonify({'error': 'ERROR: Not an .xlsx file'}), 400
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        file.save(filepath)
+        cleaning_summary = process_and_store_cleaned_data(filepath)
+        return jsonify({'summary': cleaning_summary}), 200
+    # Case 2: Existing filename
+    elif request.is_json and 'filename' in request.json:
+        filename = secure_filename(request.json['filename'])
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        if not os.path.exists(filepath):
+            return jsonify({'error': 'File not found'}), 404
+        cleaning_summary = process_and_store_cleaned_data(filepath)
+        return jsonify({'summary': cleaning_summary}), 200
+    else:
+        return jsonify({'error': 'No file or filename provided'}), 400
