@@ -1,0 +1,28 @@
+.content-box {
+    background-color: #F6EEC2;
+    color: #054423;
+    padding: 2rem;
+    margin: 0 15rem;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    border: none;
+}
+
+.content-box h1 {
+    font-size: 2.5rem;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #054423;
+}
+
+.content-box label {
+    font-size: 1.25rem;
+    font-family: "Segoe UI", sans-serif;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #054423;
+}

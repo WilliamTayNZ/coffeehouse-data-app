@@ -2,7 +2,6 @@ import os
 from flask import redirect, url_for, session
 from backend.utils import (build_chart_filename, get_insight_title)
 from backend.utils import CHART_FOLDER
-from backend.state import cleaned_data, process_and_store_cleaned_data
 from backend.routes.home_routes import UPLOAD_FOLDER
 
 os.makedirs(CHART_FOLDER, exist_ok=True)
@@ -28,13 +27,12 @@ def use_file(filename):
         return jsonify(success=False, error="File not found"), 404
 
     try:
-        process_and_store_cleaned_data(filepath)
         return jsonify(success=True)
     
     except Exception as e:
         return jsonify(success=False, error=str(e)), 500
     
-
+# TO DO : REFACTOR ALL FOR REACT
 @insights_bp.route('/sheets', methods=['POST'])
 def view_cleaned_sheets():
     return render_template('cleaned_sheets.html', sheets=cleaned_data)

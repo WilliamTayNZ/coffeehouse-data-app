@@ -1,19 +1,12 @@
-import "../pages-styles/Home.css";
-import { useState } from "react";
-
-import LogoHeader from '../components/LogoHeader';
+import MainLayout from '../components/MainLayout';
 import SubmitFile from '../components/SubmitFile';
 
 
 const Home = () => {
     return (
-    <div className="app-container">
-        {<LogoHeader />}
-        <hr className="divider" />
-        <div className="bottom-section">
-            {<SubmitFile />}
-        </div>
-    </div>
+        <MainLayout>
+            <SubmitFile />
+        </MainLayout>
     );
 };
 

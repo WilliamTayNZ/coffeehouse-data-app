@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import CleaningSummary from './pages/CleaningSummary.jsx';
+import { SheetsProvider } from './contexts/SheetsContext.jsx';
 
 function App() {
   return (

@@ -1,5 +1,11 @@
-Flask==3.1.0
-pandas==2.2.3
-matplotlib==3.10.1
-openpyxl==3.1.5
+python-dotenv
+Flask
 flask-cors
+flask-sqlalchemy
+
+psycopg2-binary
+
+pandas
+matplotlib
+openpyxl
+matplotlib

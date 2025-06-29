@@ -7,6 +7,7 @@ import DuplicateFilenameModal from './DuplicateFilenameModal';
 import InvalidFileModal from './InvalidFileModal';
 import ExistingFilesList from './ExistingFilesList';
 import FilePreviewTable from './FilePreviewTable';
+import ContentBox from '../ContentBox';
 
 import { loadExistingFiles, previewFile, uploadFile, cleanFile } from '../../../services/api';
 
@@ -130,64 +131,66 @@ const SubmitFile = () => {
     try {
       const result = await cleanFile(selectedFile);
       const filename = typeof selectedFile === 'string' ? selectedFile : selectedFile.name;
-      navigate(`/${encodeURIComponent(filename)}/cleaning-summary`);
+      navigate(`/${encodeURIComponent(filename)}/cleaning-summary`, { state: { summary: result.summary } });
     } catch (err) {
       setInvalidFileMessage(err.message || 'Failed to clean file.');
     }
   };
 
   return (
-    <form className="upload-box" onSubmit={handleSubmit} encType="multipart/form-data">
-      <h2>Upload Sales Data</h2>
-      <label htmlFor="file">Upload your franchise's sales data (.xlsx):</label><br />
-      <FileInput
-        fileName={displayFileName}
-        onFileChange={handleFileUpload}
-      />
-
-      {showDuplicateModal && (
-        <DuplicateFilenameModal
-        filename={pendingUploadFile?.name}
-        onReplace={handleDuplicateModalReplace}
-        onCancel={handleDuplicateModalCancel}
+    <ContentBox>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <h1>Upload Sales Data</h1>
+        <label htmlFor="file">Upload your franchise's sales data (.xlsx):</label><br />
+        <FileInput
+          fileName={displayFileName}
+          onFileChange={handleFileUpload}
         />
+
+        {showDuplicateModal && (
+          <DuplicateFilenameModal
+          filename={pendingUploadFile?.name}
+          onReplace={handleDuplicateModalReplace}
+          onCancel={handleDuplicateModalCancel}
+          />
+          )}
+
+        {invalidFileMessage && (
+          <InvalidFileModal
+            message={invalidFileMessage}
+            onClose={handleInvalidFileClose}
+          />
         )}
 
-      {invalidFileMessage && (
-        <InvalidFileModal
-          message={invalidFileMessage}
-          onClose={handleInvalidFileClose}
-        />
-      )}
+        {/* View Existing Data Button */}
+        <button 
+        type="button" 
+        className={`view-button${showExisting ? ' active' : ''}`} 
+        onClick={handleViewExistingFiles}>
+        View existing data
+        </button>
 
-      {/* View Existing Data Button */}
-      <button 
-      type="button" 
-      className={`view-button${showExisting ? ' active' : ''}`} 
-      onClick={handleViewExistingFiles}>
-      View existing data
-      </button>
+        {/* Existing Files Section */}
+        {showExisting && (
+          <ExistingFilesList
+            existingFiles={existingFiles}
+            currentlyPreviewed={currentlyPreviewed}
+            currentlySelected={selectedFile}
+            onPreview={handlePreview}
+            onSelect={handleSelectExisting}
+          />
+        )}
 
-      {/* Existing Files Section */}
-      {showExisting && (
-        <ExistingFilesList
-          existingFiles={existingFiles}
-          currentlyPreviewed={currentlyPreviewed}
-          currentlySelected={selectedFile}
-          onPreview={handlePreview}
-          onSelect={handleSelectExisting}
-        />
-      )}
+        {/* File Preview Section */}
+        <FilePreviewTable previewData={previewData} />
 
-      {/* File Preview Section */}
-      <FilePreviewTable previewData={previewData} />
+        {/* Clean Data Button */}
+        <button type="submit" id="clean-button" disabled={!selectedFile}>
+          Clean data
+        </button>
 
-      {/* Clean Data Button */}
-      <button type="submit" id="clean-button" disabled={!selectedFile}>
-        Clean data
-      </button>
-
-    </form>
+      </form>
+    </ContentBox>
   );
 };
 
