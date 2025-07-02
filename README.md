@@ -1,4 +1,6 @@
 # ☕ Coffeehouse Sales Data Analyser
+<b>(The information below is OUTDATED and applies to an older version of the project. Currently the project is being refactored to include new features, and to use a React frontend and PostgreSQL database)</b>
+
 
 A Flask-based web application for a fictional coffeehouse to upload, clean, and analyse their sales data, which is generated as Excel sheets.
 
