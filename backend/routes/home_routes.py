@@ -1,6 +1,6 @@
 # werkzeug is the underlying library Flask uses to handle things like: HTTP requests and responses, routing, file uploads, sessions etc
 
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
 import os
 import pandas as pd
@@ -10,7 +10,7 @@ import datetime
 
 home_bp = Blueprint('home', __name__)
                        
-UPLOAD_FOLDER = 'uploads' 
+UPLOAD_FOLDER = 'uncleaned-uploads' 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
@@ -36,7 +36,7 @@ def api_upload():
 
     file.seek(0)  # Reset file pointer after reading
     filepath = os.path.join(UPLOAD_FOLDER, filename)
-    file.save(filepath)  # This will overwrite if file exists
+    file.save(filepath)  # Overwrites if file exists
     return jsonify({'success': True}), 200
     
 @home_bp.route('/api/load_existing')
@@ -98,6 +98,7 @@ def api_clean_file():
         return jsonify({'summary': summary_dict}), 200
         
     # Case 2: Existing filename
+    # Ensure the request is JSON and actually contains valid JSON data
     elif request.is_json and request.json is not None and 'filename' in request.json:
         filename = secure_filename(request.json['filename'])
         filepath = os.path.join(UPLOAD_FOLDER, filename)
@@ -118,7 +119,7 @@ def api_clean_file():
             db.session.add(entry)
         db.session.commit()
 
-        # Build summary dict
+        # Build and returnsummary dict
         summary_dict = {sheet: tup[1] for sheet, tup in cleaned_sheets_dict.items()}
         return jsonify({'summary': summary_dict}), 200
     else:

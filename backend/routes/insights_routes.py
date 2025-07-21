@@ -1,5 +1,5 @@
 import os
-from flask import redirect, url_for, session
+from flask import redirect, url_for, render_template, session # old version Flask import
 from backend.utils import (build_chart_filename, get_insight_title)
 from backend.utils import CHART_FOLDER
 from backend.routes.home_routes import UPLOAD_FOLDER
@@ -15,7 +15,7 @@ from backend.insights import (
     visualise_highest_revenue_items
 )
 
-from flask import Blueprint, jsonify, render_template, request, session
+from flask import Blueprint, jsonify, request
 
 insights_bp = Blueprint('insights', __name__)
 
