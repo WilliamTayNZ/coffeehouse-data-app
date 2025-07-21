@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home.jsx';
+import CleanNewFile from './pages/CleanNewFile.jsx';
 import CleaningSummary from './pages/CleaningSummary.jsx';
 import { SheetsProvider } from './contexts/SheetsContext.jsx';
 
@@ -8,6 +9,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/clean-new-file" element={<CleanNewFile />} />
         <Route path="/:filename/cleaning-summary" element={<CleaningSummary />} />
       </Routes>
     </BrowserRouter>

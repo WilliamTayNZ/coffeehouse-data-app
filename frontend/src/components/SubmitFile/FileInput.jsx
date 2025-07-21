@@ -1,6 +1,6 @@
 const FileInput = ({ fileName, onFileChange }) => (
   <div className="file-upload-wrapper">
-    <label htmlFor="file" className="file-upload-label">Upload data</label>
+    <label htmlFor="file" className="file-upload-label">Upload new file</label>
     <span id="file-name">{fileName}</span>
     <input
       type="file"
@@ -13,6 +13,4 @@ const FileInput = ({ fileName, onFileChange }) => (
   </div>
 );
 
-export default FileInput; 
-
-// Future: ensure ID uniqueness if multiple FileInput components on same page
+export default FileInput;

@@ -7,7 +7,6 @@ import DuplicateFilenameModal from './DuplicateFilenameModal';
 import InvalidFileModal from './InvalidFileModal';
 import ExistingFilesList from './ExistingFilesList';
 import FilePreviewTable from './FilePreviewTable';
-import ContentBox from '../ContentBox';
 
 import { loadExistingFiles, previewFile, uploadFile, cleanFile } from '../../../services/api';
 
@@ -138,7 +137,6 @@ const SubmitFile = () => {
   };
 
   return (
-    <ContentBox>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <h1>Upload Sales Data</h1>
         <label htmlFor="file">Upload your franchise's sales data (.xlsx):</label><br />
@@ -162,12 +160,12 @@ const SubmitFile = () => {
           />
         )}
 
-        {/* View Existing Data Button */}
+        {/* View Existing Files Button */}
         <button 
         type="button" 
         className={`view-button${showExisting ? ' active' : ''}`} 
         onClick={handleViewExistingFiles}>
-        View existing data
+        View existing files
         </button>
 
         {/* Existing Files Section */}
@@ -190,7 +188,6 @@ const SubmitFile = () => {
         </button>
 
       </form>
-    </ContentBox>
   );
 };
 

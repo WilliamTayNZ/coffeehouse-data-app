@@ -1,7 +1,8 @@
 const ExistingFilesList = ({ existingFiles, currentlyPreviewed, currentlySelected, onPreview, onSelect }) => (
   <div id="existing-files-section" style={{ display: 'block' }}>
-    <h3>Uploaded Files</h3>
+    <h2>Existing Files</h2>
     <p style={{ fontFamily: 'Poppins, sans-serif' }}>
+      Previously uploaded <b>uncleaned</b> files. <br/><br/>
       <b>Note:</b> Clicking 'Select' will override any uploaded file.
     </p>
     <ul id="existing-files-list">

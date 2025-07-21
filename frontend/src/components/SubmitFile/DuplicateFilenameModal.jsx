@@ -1,5 +1,3 @@
-import React from 'react';
-
 const DuplicateFilenameModal = ({ filename, onReplace, onCancel }) => (
     <div className="modal-backdrop">
       <div className="modal">

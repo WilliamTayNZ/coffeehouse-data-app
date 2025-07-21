@@ -1,11 +1,23 @@
 import MainLayout from '../components/MainLayout';
-import SubmitFile from '../components/SubmitFile';
-
+import ContentBox from '../components/ContentBox';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+    const navigate = useNavigate();
+
     return (
         <MainLayout>
-            <SubmitFile />
+            <ContentBox>
+                <h1>Welcome to Sales Data Analyser!</h1>
+                <button className="clean-button" onClick={() => navigate('/clean-new-file')}>
+                Clean new file
+                </button>
+                <br/>
+                <button
+                    className="view-button" onClick={() => navigate('/cleaned-sheets')}>
+                    View cleaned sheets
+                </button>
+            </ContentBox>
         </MainLayout>
     );
 };
