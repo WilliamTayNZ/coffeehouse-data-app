@@ -88,7 +88,16 @@ def api_clean_file():
         # Insert new cleaned sheets
         for sheetname, (df, summary) in cleaned_sheets_dict.items():
             cleaned_csv = df.to_csv(index=False)
-            entry = CoffeehouseCleanedSheets(filename=filename, sheet_name=sheetname, cleaning_summary=summary, cleaned_df_csv=cleaned_csv)
+            entry = CoffeehouseCleanedSheets(
+                filename=filename,
+                sheet_name=sheetname,
+                cleaning_summary=summary,
+                cleaned_df_csv=cleaned_csv,
+                peak_transaction_times_chart=None,
+                most_popular_by_revenue_chart=None,
+                most_popular_by_quantity_chart=None,
+                highest_revenue_items_chart=None
+            )
             print(f"DB INSERT: {sheetname=} {summary=}")
             db.session.add(entry)
         db.session.commit()
@@ -115,7 +124,16 @@ def api_clean_file():
         # Insert new cleaned sheets
         for sheetname, (df, summary) in cleaned_sheets_dict.items():
             cleaned_csv = df.to_csv(index=False)
-            entry = CoffeehouseCleanedSheets(filename=filename, sheet_name=sheetname, cleaning_summary=summary, cleaned_df_csv=cleaned_csv)
+            entry = CoffeehouseCleanedSheets(
+                filename=filename,
+                sheet_name=sheetname,
+                cleaning_summary=summary,
+                cleaned_df_csv=cleaned_csv,
+                peak_transaction_times_chart=None,
+                most_popular_by_revenue_chart=None,
+                most_popular_by_quantity_chart=None,
+                highest_revenue_items_chart=None
+            )
             db.session.add(entry)
         db.session.commit()
 
