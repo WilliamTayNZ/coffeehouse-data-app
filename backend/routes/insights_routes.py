@@ -2,7 +2,7 @@ import os
 from flask import redirect, url_for, render_template, session # old version Flask import
 from backend.utils import (build_chart_filename, get_insight_title)
 from backend.utils import CHART_FOLDER
-from backend.routes.home_routes import UPLOAD_FOLDER
+from backend.routes.clean_routes import UPLOAD_FOLDER
 
 os.makedirs(CHART_FOLDER, exist_ok=True)
 

@@ -8,13 +8,13 @@ from backend.cleaner import clean_excel_sheets
 from backend.models import CoffeehouseCleanedSheets, db
 import datetime
 
-home_bp = Blueprint('home', __name__)
+clean_bp = Blueprint('clean', __name__)
                        
 UPLOAD_FOLDER = 'uncleaned-uploads' 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
-@home_bp.route('/api/upload', methods=['POST'])
+@clean_bp.route('/api/upload', methods=['POST'])
 def api_upload():
     file = request.files['file']
     if not file.filename or not file.filename.endswith('.xlsx'):
@@ -39,12 +39,12 @@ def api_upload():
     file.save(filepath)  # Overwrites if file exists
     return jsonify({'success': True}), 200
     
-@home_bp.route('/api/load_existing')
+@clean_bp.route('/api/load_existing')
 def api_load_existing():
     files = [f for f in os.listdir(UPLOAD_FOLDER) if f.endswith('.xlsx')]
     return jsonify(files=files)
 
-@home_bp.route('/api/preview_file/<filename>')
+@clean_bp.route('/api/preview_file/<filename>')
 def preview_file(filename):
     filepath = os.path.join(UPLOAD_FOLDER, filename)
     
@@ -66,7 +66,7 @@ def preview_file(filename):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@home_bp.route('/api/clean_file', methods=['POST'])
+@clean_bp.route('/api/clean_file', methods=['POST'])
 def api_clean_file():
 
     # Case 1: File upload
