@@ -4,8 +4,6 @@ import CleanNewFile from './pages/CleanNewFile.jsx';
 import CleaningSummary from './pages/CleaningSummary.jsx';
 import CleanedSheets from './pages/CleanedSheets.jsx';
 
-import { SheetsProvider } from './contexts/SheetsContext.jsx';
-
 function App() {
   return (
     <BrowserRouter>
