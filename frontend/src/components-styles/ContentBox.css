@@ -27,6 +27,12 @@
     color: #054423;
 }
 
+.button-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center; /* this line not strictly necessary but good practice */
+  }
+
 /* Default Button */
 
 button {
@@ -108,6 +114,7 @@ button:disabled {
     margin-bottom: 0.5rem;
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    min-width: fit-content;
 }
 
 .view-button:hover {
@@ -132,4 +139,9 @@ li {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+}
+
+.table-container {
+  overflow-y: scroll;
+  max-height: 500px;
 }
