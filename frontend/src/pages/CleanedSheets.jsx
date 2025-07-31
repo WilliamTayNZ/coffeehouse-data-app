@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
 import ContentBox from '../components/ContentBox';
-import React from 'react'; // Added missing import for React
+import React from 'react'; // Needed for React.Fragment
 
 const API_URL = '/api/cleaned_sheets';
 
@@ -47,13 +47,13 @@ const CleanedSheets = () => {
       <ContentBox>
         <h1>Cleaned Sheets</h1>
         <div className="table-container">
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed'}}>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Sheet Name</th>
-                <th>Original File</th>
-                <th>Actions</th>
+                <th style={{ width: '5%' }}>ID</th>
+                <th style={{ width: '7%' }}>Sheet Name</th>
+                <th style={{ width: '29%' }}>Original File</th>
+                <th style={{ width: '45%' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
