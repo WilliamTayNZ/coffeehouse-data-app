@@ -44,8 +44,8 @@ def api_load_existing():
     files = [f for f in os.listdir(UPLOAD_FOLDER) if f.endswith('.xlsx')]
     return jsonify(files=files)
 
-@clean_bp.route('/api/preview_file/<filename>')
-def preview_file(filename):
+@clean_bp.route('/api/preview_uncleaned_file/<filename>')
+def api_preview_uncleaned_file(filename):
     filepath = os.path.join(UPLOAD_FOLDER, filename)
     
     if not os.path.exists(filepath):
