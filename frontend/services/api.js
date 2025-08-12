@@ -20,7 +20,7 @@ export async function uploadFile(file) {
   return res.json();
 }
 
-export async function previewFile(filename) {
+export async function previewUncleanedFile(filename) {
   const res = await fetch(`${BASE_URL}/api/preview_uncleaned_file/${encodeURIComponent(filename)}`);
   const data = await res.json();
   if (!res.ok || data.error) throw new Error(data.error || 'Failed to preview file');

@@ -8,7 +8,7 @@ import InvalidFileModal from './InvalidFileModal';
 import ExistingFilesList from './ExistingFilesList';
 import FilePreviewTable from './FilePreviewTable';
 
-import { loadExistingFiles, previewFile, uploadFile, cleanFile } from '../../../services/api';
+import { loadExistingFiles, previewUncleanedFile, uploadFile, cleanFile } from '../../../services/api';
 
 const SubmitFile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -106,7 +106,7 @@ const SubmitFile = () => {
       return;
     }
     try {
-      const preview = await previewFile(filename);
+      const preview = await previewUncleanedFile(filename);
       setPreviewData(preview);
       setCurrentlyPreviewed(filename);
     } catch (err) {
