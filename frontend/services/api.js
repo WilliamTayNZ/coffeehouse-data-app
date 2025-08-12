@@ -76,3 +76,10 @@ export async function previewCleanedSheet(sheetId) {
   if (!res.ok || data.error) throw new Error(data.error || 'Failed to preview sheet');
   return data;
 }
+
+export async function getSheetSummary(sheetId) {
+  const res = await fetch(`${BASE_URL}/api/get_sheet_summary/${encodeURIComponent(sheetId)}`);
+  const data = await res.json();
+  if (!res.ok || data.error) throw new Error(data.error || 'Failed to get sheet summary');
+  return data;
+}

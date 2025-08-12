@@ -29,10 +29,7 @@ def get_cleaned_sheets():
 def preview_cleaned_sheet(sheet_id):
     try:
         sheet = CoffeehouseCleanedSheets.query.get_or_404(sheet_id)
-        
-        if not sheet.cleaned_df_csv:
-            return jsonify({'error': 'No preview data available'}), 404
-        
+
         df = pd.read_csv(StringIO(sheet.cleaned_df_csv))
         
         preview_data = {
@@ -44,3 +41,16 @@ def preview_cleaned_sheet(sheet_id):
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@cleaned_sheets_bp.route('/api/get_sheet_summary/<int:sheet_id>', methods=['GET'])
+def get_sheet_summary(sheet_id):
+    try:
+        sheet = CoffeehouseCleanedSheets.query.get_or_404(sheet_id)
+        return jsonify(sheet.cleaning_summary)
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+        
+
+

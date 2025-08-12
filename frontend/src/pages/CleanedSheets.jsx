@@ -1,17 +1,16 @@
-//  Not yet push, I created the Modal and handlers for now but realised one problem
-// So keep this in mind.
-
 import { useState, useEffect } from 'react';
+import React from 'react'; // Needed for React.Fragment
+
 import MainLayout from '../components/MainLayout';
 import ContentBox from '../components/ContentBox';
-import React from 'react'; // Needed for React.Fragment
-import { previewCleanedSheet, getCleanedSheets } from '../../services/api';
+import SummaryModal from '../components/SummaryModal';
+
+import { previewCleanedSheet, getCleanedSheets, getSheetSummary } from '../../services/api';
 
 const CleanedSheets = () => {
   const [sheets, setSheets] = useState([]);
   const [previewData, setPreviewData] = useState(null);
   const [previewingId, setPreviewingId] = useState(null);
-  const [showSummary, setShowSummary] = useState(false);
   const [cleaningSummary, setCleaningSummary] = useState(null);
 
   useEffect(() => {
@@ -38,13 +37,15 @@ const CleanedSheets = () => {
 
   const handleViewSummary = async (sheet) => {
     try {
-      const res = await fetch(`/api/cleaning_summary/${sheet.id}`);
-      const data = await res.json();
-      setCleaningSummary(data);
-      setShowSummary(true);
+      const summary = await getSheetSummary(sheet.id);
+      setCleaningSummary(summary);
     } catch (error) {
       console.error('Failed to fetch cleaning summary:', error);
     }
+  };
+
+  const handleCloseSummary = () => {
+    setCleaningSummary(null);
   };
 
   const hasAnyInsight = (sheet) =>
@@ -89,15 +90,11 @@ const CleanedSheets = () => {
                           View Cleaning Summary
                         </button>
 
-                        {showSummary && cleaningSummary && (
-                          <Modal
-                            isOpen={showSummary}
-                            onClose={() => setShowSummary(false)}
-                          >
-                            <h2>Cleaning Summary</h2>
-                            <pre>{JSON.stringify(cleaningSummary, null, 2)}</pre>
-                          </Modal>
-                        )}
+                        {cleaningSummary && (<SummaryModal 
+                          summary={cleaningSummary}
+                          onClose={handleCloseSummary}
+                        />)}
+
                         <button className="view-button" disabled>
                           {hasAnyInsight(sheet) ? 'View Insights' : 'Create Insights'}
                         </button>
