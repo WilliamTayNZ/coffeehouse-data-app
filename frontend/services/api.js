@@ -1,5 +1,7 @@
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+// SubmitFile
+
 export async function loadExistingFiles() {
     const res = await fetch(`${BASE_URL}/api/load_existing`);
     if (res.ok) return res.json();
@@ -57,4 +59,20 @@ export async function cleanFile(fileOrFilename) {
   } else {
     throw new Error('Invalid cleanFile argument');
   }
+}
+
+// CleanedSheets
+
+export async function getCleanedSheets() {
+  const res = await fetch(`${BASE_URL}/api/cleaned_sheets`);
+  const data = await res.json();
+  if (!res.ok || data.error) throw new Error(data.error || 'Failed to fetch cleaned sheets');
+  return data;
+}
+
+export async function previewCleanedSheet(sheetId) {
+  const res = await fetch(`${BASE_URL}/api/preview_cleaned_sheet/${encodeURIComponent(sheetId)}`);
+  const data = await res.json();
+  if (!res.ok || data.error) throw new Error(data.error || 'Failed to preview sheet');
+  return data;
 }

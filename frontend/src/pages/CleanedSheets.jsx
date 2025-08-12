@@ -1,24 +1,25 @@
+//  Not yet push, I created the Modal and handlers for now but realised one problem
+// So keep this in mind.
+
 import { useState, useEffect } from 'react';
 import MainLayout from '../components/MainLayout';
 import ContentBox from '../components/ContentBox';
 import React from 'react'; // Needed for React.Fragment
-
-const API_URL = '/api/cleaned_sheets';
+import { previewCleanedSheet, getCleanedSheets } from '../../services/api';
 
 const CleanedSheets = () => {
   const [sheets, setSheets] = useState([]);
   const [previewData, setPreviewData] = useState(null);
   const [previewingId, setPreviewingId] = useState(null);
+  const [showSummary, setShowSummary] = useState(false);
+  const [cleaningSummary, setCleaningSummary] = useState(null);
 
   useEffect(() => {
-    fetch(API_URL)
-      .then(res => res.json())
+    getCleanedSheets()
       .then(setSheets)
       .catch(() => setSheets([]));
   }, []);
 
-  /* handlePreview: Could be further optimized with caching if users preview the same sheet repeatedly, 
-  but this is not necessary for most apps. */
   const handlePreview = async (sheet) => {
     if (previewingId === sheet.id) {
       setPreviewData(null);
@@ -26,13 +27,23 @@ const CleanedSheets = () => {
       return;
     }
     try {
-      const res = await fetch(`/api/preview_file/${encodeURIComponent(sheet.filename)}`);
-      const data = await res.json();
-      setPreviewData(data);
+      const preview = await previewCleanedSheet(sheet.id);
+      setPreviewData(preview);
       setPreviewingId(sheet.id);
-    } catch {
+    } catch (err) {
       setPreviewData({ error: 'Failed to fetch preview.' });
       setPreviewingId(sheet.id);
+    }
+  };
+
+  const handleViewSummary = async (sheet) => {
+    try {
+      const res = await fetch(`/api/cleaning_summary/${sheet.id}`);
+      const data = await res.json();
+      setCleaningSummary(data);
+      setShowSummary(true);
+    } catch (error) {
+      console.error('Failed to fetch cleaning summary:', error);
     }
   };
 
@@ -71,9 +82,22 @@ const CleanedSheets = () => {
                         >
                           {previewingId === sheet.id ? 'Hide Preview' : 'Preview Data'}
                         </button>
-                        <button className="view-button" disabled>
+                        <button 
+                          className="view-button"
+                          onClick={() => handleViewSummary(sheet)}
+                        >
                           View Cleaning Summary
                         </button>
+
+                        {showSummary && cleaningSummary && (
+                          <Modal
+                            isOpen={showSummary}
+                            onClose={() => setShowSummary(false)}
+                          >
+                            <h2>Cleaning Summary</h2>
+                            <pre>{JSON.stringify(cleaningSummary, null, 2)}</pre>
+                          </Modal>
+                        )}
                         <button className="view-button" disabled>
                           {hasAnyInsight(sheet) ? 'View Insights' : 'Create Insights'}
                         </button>
