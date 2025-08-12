@@ -44,7 +44,7 @@ def api_load_existing():
     files = [f for f in os.listdir(UPLOAD_FOLDER) if f.endswith('.xlsx')]
     return jsonify(files=files)
 
-@clean_bp.route('/api/preview_uncleaned_file/<filename>')
+@clean_bp.route('/api/preview_uncleaned_file/<filename>', methods=['GET'])
 def api_preview_uncleaned_file(filename):
     filepath = os.path.join(UPLOAD_FOLDER, filename)
     
@@ -59,9 +59,12 @@ def api_preview_uncleaned_file(filename):
             if df[col].dtype == 'object' and df[col].apply(lambda x: isinstance(x, datetime.time)).any():
                 df[col] = df[col].apply(lambda t: t.strftime('%H:%M') if isinstance(t, datetime.time) else t)
 
-        preview = df.head(10).to_dict(orient='records')  # first 10 rows as list of dicts
-        columns = df.columns.tolist()
-        return jsonify({"columns": columns, "rows": preview})
+        preview_data = {
+            'columns': df.columns.tolist(),
+            'rows': df.head(10).to_dict(orient='records')
+        }
+        
+        return jsonify(preview_data)
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
