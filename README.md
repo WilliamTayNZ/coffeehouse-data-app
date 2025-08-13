@@ -43,35 +43,31 @@ A web application built with React and Flask for a fictional coffeehouse to uplo
 - **Libraries:** Pandas, Matplotlib
 
 
-## 🗂 Folder Structure (NOT YET UPDATED)
+<!--
+## 🗂 Folder Structure (hidden for now)
 
 ```
 coffeehouse-data-app/
 │
 ├── backend/
-│   └── routes
-│       ├──__init__.py
-│       ├──clean_routes.py
-│       ├──cleaned_sheets_routes.py
-│       ├──insights_routes.py
-│   └── routes
-│   ├── cleaner.py          # Excel sheet cleaning logic
-│   ├── insights.py         # Insight generation and visualisation
-│   ├── routes.py           # Flask routes
-│   ├── utils.py            # Helper functions for filename generation
-│   └── templates/          # HTML files (Jinja2)
-│       └── ...
-│
-├── static/
-│   └── charts/             # Chart images saved here
-│
-├── assets/                 # Only for storing README preview screenshots 
-├── uploads/                # Uploaded Excel files
-├── requirements.txt
-└── README.md
+│ ├── routes/
+│ │ ├── init.py
+│ │ ├── clean_routes.py
+│ │ ├── cleaned_sheets_routes.py
+│ │ └── insights_routes.py
+│ ├── static/            # obsolete but still needed for refactor
+│ ├── templates/         # obsolete from older version
+│ ├── __init__.py
+│ ├── cleaner.py
+│ ├── insights.py
+│ ├── models.py
+│ └── utils.py
+
 ```
 
 ---
+
+-->
 
 ## 🚀 How to Use
 
