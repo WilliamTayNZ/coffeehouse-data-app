@@ -1,55 +1,60 @@
 # ☕ Coffeehouse Sales Data Analyser
-<b>(The information below is OUTDATED and applies to an older version of the project. Currently the project is being refactored to include new features, and to use a React frontend and PostgreSQL database)</b>
+
+<b>This project is currently a work-in-progress.</b>
+
+A web application built with React and Flask for a fictional coffeehouse to upload, clean, and analyse their sales data, which was generated with some errors.
 
 
-A Flask-based web application for a fictional coffeehouse to upload, clean, and analyse their sales data, which is generated as Excel sheets.
-
----
 
 ## 🔍 Features
 
-- 📤 Upload `.xlsx` Excel files with multiple transaction sheets
-  - Follows the coffeehouse's sheets format, see uploads folder
+- 📤 Upload `.xlsx` Excel files with multiple transaction sheets, or select from existing uncleaned files.
+  - Follows the coffeehouse's sheets format as in  `uncleaned-uploads`.
 
 - 🧼 Cleans and processes each sheet:
-  - Removes duplicates
-  - Fills missing product names and prices based on menu
-  - Flags incomplete rows
-- 📊 Insights:
-  - ⏰ Peak Transaction Times
-  - 📦 Most Popular Items (by transaction count or quantity sold)
-  - 💰 Highest Revenue Items
-- 📁 Saves each chart as a uniquely named image for future access
-- 💡 In-memory session management (will add a database in the future)
+  - Removes duplicate entries
+  - Automatically fills in missing product names or prices where possible
+  - Flags incomplete rows (missing both product name and price)
+  - Saves cleaned sheets to database
 
----
+- 📊 Analyses sheets to generate insights:
+  - ⏰ Peak transaction times
+  - 📦 Most popular items (by transaction count and by quantity sold)
+  - 💰 Highest revenue-generating items
 
-## 📸 Screenshots
+- ✨ Clean frontend for a smooth user experience.
 
-![Upload Page](assets/preview_image_1.png)
----
-![Cleaning Summary](assets/preview_image_2.png)
----
-![Sheet Selection](assets/preview_image_3.png)
----
 
----
+
+## 📸 Screenshots (styled)
+![Upload Page](preview-images/preview_clean_existing.png)
+![Cleaning Summary](preview-images/preview_cleaning_summary.png)
+## 📸 Screenshots (unstyled)
+![Select Insight](preview-images/preview_image_2.png)
+![MostPopularItems](preview-images/preview_image_3.png)
+
+
 
 ## 🛠 Tech Stack
 
+- **Frontend:** React.js
 - **Backend:** Flask (Python 3)
-- **Frontend:** HTML (Jinja2)
+- **Database:** PostgreSQL with SQLAlchemy
 - **Libraries:** Pandas, Matplotlib
-- **File Handling:** Secure file upload + chart image saving
 
----
 
-## 🗂 Folder Structure
+## 🗂 Folder Structure (NOT YET UPDATED)
 
 ```
 coffeehouse-data-app/
 │
-├── api/
+├── backend/
+│   └── routes
+│       ├──__init__.py
+│       ├──clean_routes.py
+│       ├──cleaned_sheets_routes.py
+│       ├──insights_routes.py
+│   └── routes
 │   ├── cleaner.py          # Excel sheet cleaning logic
 │   ├── insights.py         # Insight generation and visualisation
 │   ├── routes.py           # Flask routes
@@ -92,14 +97,21 @@ coffeehouse-data-app/
    pip install -r requirements.txt
    ```
 
-4. **Run the app**
-   ```bash
-   python run.py
+    ```bash
+   cd frontend
+   npm install
    ```
 
-5. **Upload Excel data files**
+4. **Run the frontend and backend in separate terminals**
+   ```bash
+   py backend.py
+   ```
 
-- Download one of the coffeehouse's Excel data files from `uploads/`. 
-- Then, upload this to the file directory, and click "Upload and Clean"!
+   ```bash
+   cd frontend
+   npm run dev
+   ```
+
+5. **Enjoy!**
 
 ---
