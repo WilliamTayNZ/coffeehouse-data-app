@@ -8,7 +8,7 @@ import InvalidFileModal from './InvalidFileModal';
 import ExistingFilesList from './ExistingFilesList';
 import FilePreviewTable from './FilePreviewTable';
 
-import { loadExistingFiles, previewUncleanedFile, uploadFile, cleanFile } from '../../../services/api';
+import { loadExistingFiles, previewUncleanedFile, uploadFile, cleanFile } from '../../services/api';
 
 const SubmitFile = () => {
   const [selectedFile, setSelectedFile] = useState(null);

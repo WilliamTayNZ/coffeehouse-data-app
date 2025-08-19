@@ -5,7 +5,7 @@ import MainLayout from '../components/MainLayout';
 import ContentBox from '../components/ContentBox';
 import SummaryModal from '../components/SummaryModal';
 
-import { previewCleanedSheet, getCleanedSheets, getSheetSummary } from '../../services/api';
+import { previewCleanedSheet, getCleanedSheets, getSheetSummary } from '../services/api';
 
 const CleanedSheets = () => {
   const [sheets, setSheets] = useState([]);

@@ -6,8 +6,9 @@ __pycache__/
 venv/
 .env
 
-# Generated files
-backend/static/charts/
+# Obsolete files, kept for reference in the refactor
+backend/static/styles
+backend/templates
 
 # Ignore documentation and media not meant for repo
 Development_Plan.docx
