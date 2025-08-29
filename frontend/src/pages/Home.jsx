@@ -9,10 +9,9 @@ const Home = () => {
         <MainLayout>
             <ContentBox>
                 <h1>Welcome to Sales Data Analyser!</h1>
-                <button className="clean-button" onClick={() => navigate('/clean-new-file')}>
+                <button className="view-button" onClick={() => navigate('/clean-new-file')}>
                 Clean new file
                 </button>
-                <br/>
                 <button
                     className="view-button" onClick={() => navigate('/cleaned-sheets')}>
                     View cleaned sheets
