@@ -62,8 +62,8 @@ const CleanedSheets = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed'}}>
             <thead>
               <tr>
-                <th style={{ width: '5%' }}>ID</th>
-                <th style={{ width: '7%' }}>Sheet Name</th>
+                <th style={{ width: '3.5%' }}>ID</th>
+                <th style={{ width: '8%' }}>Sheet Name</th>
                 <th style={{ width: '29%' }}>Original File</th>
                 <th style={{ width: '45%' }}>Actions</th>
               </tr>
