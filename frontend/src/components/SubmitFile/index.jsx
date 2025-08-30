@@ -138,7 +138,7 @@ const SubmitFile = () => {
 
   return (
       <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <h1>Upload Sales Data</h1>
+        <h1>Clean New File</h1>
         <label htmlFor="file">Upload your franchise's sales data (.xlsx):</label><br />
         <FileInput
           fileName={displayFileName}
